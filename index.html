@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+        form {
+            display: block;
+            max-width: 920px;
+            border: 1px solid black;
+            margin: 60px auto;
+            padding: 40px;
+            box-sizing: border-box;
+        }
+        .form-title {
+            font-size: 30px;
+            text-align: center;
+        }
+        label {
+            display: block;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .input {
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+            resize: none;
+            padding: 10px 35px;
+            box-sizing: border-box;
+        }
+        .post-body {
+            border: 1px solid black;
+            max-width: 920px;
+            margin: 5px auto;
+            padding: 10px 35px;
+            box-sizing: border-box;
+        }
+
+    </style>
+</head>
+<body>
+<form onsubmit="sendPost(this, event)">
+    <h3 class="form-title">Add New Post</h3>
+    <label class="input-label">
+        <div>Post Title</div>
+        <input class="input" name="title" placeholder="My awesome post"/>
+    </label>
+    <label class="input-label">
+        <div>Post Content</div>
+        <textarea class="input" rows="5" name="desc" placeholder="Lorem ipsum dolor ..."></textarea>
+    </label>
+    <button type="submit">Submit</button>
+</form>
+<div class="post-list" id="post-list">
+    <div class="post-body">
+        <h1 class="post-title">The post title</h1>
+        <p class="post-desc">
+            It is a long established fact that a reader will be distracted by the readable content of a page when
+            looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of
+            letters, as opposed to using 'Content here, content here',
+        </p>
+    </div>
+    <div class="post-body">
+        <h1 class="post-title">The post title</h1>
+        <p class="post-desc">
+            It is a long established fact that a reader will be distracted by the readable content of a page when
+            looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of
+            letters, as opposed to using 'Content here, content here',
+        </p>
+    </div>
+    <div class="post-body">
+        <h1 class="post-title">The post title</h1>
+        <p class="post-desc">
+            It is a long established fact that a reader will be distracted by the readable content of a page when
+            looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of
+            letters, as opposed to using 'Content here, content here',
+        </p>
+    </div>
+    <div class="post-body">
+        <h1 class="post-title">The post title</h1>
+        <p class="post-desc">
+            It is a long established fact that a reader will be distracted by the readable content of a page when
+            looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of
+            letters, as opposed to using 'Content here, content here',
+        </p>
+    </div>
+    <div class="post-body">
+        <h1 class="post-title">The post title</h1>
+        <p class="post-desc">
+            It is a long established fact that a reader will be distracted by the readable content of a page when
+            looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of
+            letters, as opposed to using 'Content here, content here',
+        </p>
+    </div>
+    <div class="post-body">
+        <h1 class="post-title">The post title</h1>
+        <p class="post-desc">
+            It is a long established fact that a reader will be distracted by the readable content of a page when
+            looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of
+            letters, as opposed to using 'Content here, content here',
+        </p>
+    </div>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+
+    function fetchPosts() {
+        fetch('./posts').then(res => res.json()).then(posts => {
+            console.log(posts);
+            document.getElementById('post-list').innerHTML = posts.map(p => (
+                '    <div class="post-body">\n' +
+                '        <h1 class="post-title">'+p.title+'</h1>\n' +
+                '        <p class="post-desc">\n' + p.description +
+                '        </p>\n' +
+                '    </div>'
+            ));
+        });
+    }
+
+    function sendPost(form, e) {
+        e.preventDefault();
+        console.log(form.title, form.desc);
+        fetch('./post', {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({title: form.title.value, desc: form.desc.value})
+        }).then(res => res.json()).then(posts => {
+            console.log(posts);
+        });
+    }
+    const socket = io();
+    socket.on('db_updated', table => {
+        if (table === 'posts') {
+            fetchPosts();
+        }
+    });
+    fetchPosts();
+</script>
+</body>
+</html>
