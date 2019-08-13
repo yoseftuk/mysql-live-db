@@ -111,7 +111,6 @@
 
     function fetchPosts() {
         fetch('./posts').then(res => res.json()).then(posts => {
-            console.log(posts);
             document.getElementById('post-list').innerHTML = posts.map(p => (
                 '    <div class="post-body">\n' +
                 '        <h1 class="post-title">'+p.title+'</h1>\n' +
@@ -124,7 +123,7 @@
 
     function sendPost(form, e) {
         e.preventDefault();
-        console.log(form.title, form.desc);
+
         fetch('./post', {
             method: 'post',
             headers: {
@@ -132,8 +131,6 @@
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({title: form.title.value, desc: form.desc.value})
-        }).then(res => res.json()).then(posts => {
-            console.log(posts);
         });
     }
     const socket = io();

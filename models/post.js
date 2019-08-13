@@ -8,7 +8,6 @@ class Post {
         });
     }
     static add(conn, req, res) {
-        console.log(req.body);
         DB.withTables('posts').query(conn, 'INSERT INTO posts SET ?', {title: req.body.title, description: req.body.desc}, (err, results, fields) => {
             res.send(JSON.stringify({err}));
         });

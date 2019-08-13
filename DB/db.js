@@ -27,7 +27,6 @@ class Transaction {
     }
     query(conn, sql, params, callback) {
 
-        // const cn = DB.connect('localhost', 'root', '', 'yoos_db');
         conn.query(sql, params, (error, results, fields) => {
             callback && callback(error, results, fields);
             for (let table of this.effectedTables) {

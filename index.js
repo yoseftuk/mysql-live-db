@@ -24,7 +24,5 @@ app.post('/post', (req, res) => {
 });
 http.listen(3000, () => {
     console.log('listening on port :3000');
-    // conn = DB.connect('localhost', 'root', '', 'yoos_db', http);
-    // DB.connect('localhost', 'root', '', 'yoos_db', http);
 });
 
