@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/yoostuk/mysql-live-db#readme",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "mongodb": "^3.3.0-beta2",
     "mysql": "^2.17.1",
     "socket.io": "^2.2.0"
